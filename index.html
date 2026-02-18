@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NIP-98 — HTTP Auth for Nostr</title>
-  <meta name="description" content="NIP-98 defines HTTP authentication using signed Nostr events. The foundational auth layer for file uploads, NosDAV, and the Nostr HTTP ecosystem.">
+  <meta name="description" content="NIP-98 defines HTTP authentication using signed Nostr events. Used by 115+ projects including wallets, relays, streaming platforms, AI services, and the Nostr HTTP ecosystem.">
 
   <!-- Open Graph -->
   <meta property="og:title" content="NIP-98 — HTTP Auth for Nostr">
-  <meta property="og:description" content="Passwordless HTTP authentication using signed Nostr events. The foundational auth layer for file uploads, NosDAV, and the Nostr HTTP ecosystem.">
+  <meta property="og:description" content="Passwordless HTTP authentication using signed Nostr events. Used by 115+ projects including wallets, relays, streaming platforms, and AI services.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://nip98.com">
   <meta property="og:site_name" content="NIP-98">
@@ -224,44 +224,161 @@
 </section>
 
 <section>
-  <h2>Libraries</h2>
-  <div class="impl-grid">
-    <div class="impl-category">
-      <ul>
-        <li><a href="https://github.com/nbd-wtf/nostr-tools">nostr-tools</a> <span class="lang">JS/TS</span> &mdash; canonical Nostr library, exports <code>nip98.getToken()</code> and <code>nip98.validateToken()</code></li>
-        <li><a href="https://github.com/jiftechnify/hono-nostr-auth">hono-nostr-auth</a> <span class="lang">JS/TS</span> &mdash; NIP-98 middleware for Hono web framework</li>
-        <li><a href="https://github.com/leon-wbr/better-auth-nostr">better-auth-nostr</a> <span class="lang">JS/TS</span> &mdash; NIP-98 plugin for Better Auth</li>
-        <li><a href="https://github.com/dolu89/nostr-one">nostr-one</a> <span class="lang">JS/TS</span> &mdash; reusable web component for NIP-98 login</li>
-        <li><a href="https://nostrify.dev/">Nostrify</a> <span class="lang">Deno</span> &mdash; Nostr framework with NIP-98 support</li>
-        <li><a href="https://github.com/rust-nostr/nostr">rust-nostr</a> <span class="lang">Rust</span> &mdash; comprehensive Nostr crate with kind 27235 support + FFI bindings</li>
-        <li><a href="https://github.com/nbd-wtf/go-nostr">go-nostr</a> <span class="lang">Go</span> &mdash; Go Nostr library with event kind support</li>
-        <li><a href="https://github.com/holgern/pynostr">pynostr</a> <span class="lang">Python</span> &mdash; Python Nostr library</li>
-      </ul>
-    </div>
-  </div>
-</section>
+  <h2>Ecosystem</h2>
+  <p>
+    NIP-98 is used across 115+ projects. Below are the most notable by category.
+  </p>
 
-<section>
-  <h2>Clients</h2>
   <div class="impl-category">
+    <h3>Libraries &amp; SDKs</h3>
+    <ul>
+      <li><a href="https://github.com/nbd-wtf/nostr-tools">nostr-tools</a> <span class="lang">JS/TS</span> &mdash; canonical Nostr library; <code>nip98.getToken()</code> and <code>nip98.validateToken()</code></li>
+      <li><a href="https://github.com/nostr-dev-kit/ndk">NDK</a> <span class="lang">JS/TS</span> &mdash; Nostr Development Kit used by many downstream clients</li>
+      <li><a href="https://github.com/coracle-social/welshman">Welshman</a> <span class="lang">JS/TS</span> &mdash; Nostr toolkit from Coracle with <code>Nip98.ts</code> module</li>
+      <li><a href="https://github.com/ostyjs/nostr-hooks">nostr-hooks</a> <span class="lang">React</span> &mdash; React hooks including <code>useNip98</code></li>
+      <li><a href="https://nostrify.dev/">Nostrify</a> <span class="lang">Deno</span> &mdash; Nostr framework with NIP-98 support</li>
+      <li><a href="https://github.com/rust-nostr/nostr">rust-nostr</a> <span class="lang">Rust</span> &mdash; comprehensive Nostr crate + FFI bindings for Python, Swift, Kotlin, JS, C#</li>
+      <li><a href="https://github.com/mikedilger/nostr-types">nostr-types</a> <span class="lang">Rust</span> &mdash; types crate used by Gossip and Chorus</li>
+      <li><a href="https://github.com/nbd-wtf/go-nostr">go-nostr</a> <span class="lang">Go</span> &mdash; Go Nostr library</li>
+      <li><a href="https://github.com/holgern/pynostr">pynostr</a> <span class="lang">Python</span> &mdash; Python Nostr library</li>
+      <li><a href="https://github.com/chebizarro/nostrc">nostrc</a> <span class="lang">C</span> &mdash; full C implementation with dedicated <code>nip98/</code> module</li>
+      <li><a href="https://github.com/smaciullator/NostrSharp">NostrSharp</a> <span class="lang">C#</span> &mdash; .NET Nostr library with NIP-98 support</li>
+    </ul>
+  </div>
+
+  <div class="impl-category">
+    <h3>Server Middleware</h3>
+    <ul>
+      <li><a href="https://github.com/jiftechnify/hono-nostr-auth">hono-nostr-auth</a> <span class="lang">JS/TS</span> &mdash; NIP-98 middleware for Hono</li>
+      <li><a href="https://github.com/jbsdx/express-nostr-auth">express-nostr-auth</a> <span class="lang">JS/TS</span> &mdash; Express.js middleware</li>
+      <li><a href="https://github.com/HumanjavaEnterprises/nostr-auth-middleware">nostr-auth-middleware</a> <span class="lang">JS/TS</span> &mdash; NIP-98 with JWT sessions and optional Supabase</li>
+      <li><a href="https://github.com/leon-wbr/better-auth-nostr">better-auth-nostr</a> <span class="lang">JS/TS</span> &mdash; Better Auth plugin</li>
+      <li><a href="https://github.com/soapbox-pub/ditto">Ditto</a> <span class="lang">JS/TS</span> &mdash; Nostr server with NIP-98 Zod validation</li>
+      <li><a href="https://github.com/nosdav/passport-nostr">passport-nostr</a> <span class="lang">JS/TS</span> &mdash; Passport.js strategy for Nostr auth</li>
+    </ul>
+  </div>
+
+  <div class="impl-category">
+    <h3>Clients</h3>
     <ul>
       <li><a href="https://github.com/v0l/snort">Snort</a> &mdash; web client by v0l</li>
       <li><a href="https://github.com/damus-io/damus">Damus</a> &mdash; iOS</li>
+      <li><a href="https://github.com/damus-io/notedeck">Notedeck</a> &mdash; Damus desktop client</li>
       <li><a href="https://github.com/vitorpamplona/amethyst">Amethyst</a> &mdash; Android</li>
-      <li><a href="https://nostrudel.ninja/">noStrudel</a> &mdash; web client with extensive NIP support</li>
+      <li><a href="https://github.com/coracle-social/coracle">Coracle</a> &mdash; web client</li>
+      <li><a href="https://github.com/lumehq/coop">Coop</a> &mdash; Lume desktop chat client</li>
+      <li><a href="https://nostrudel.ninja/">noStrudel</a> &mdash; web client</li>
+      <li><a href="https://github.com/nostria-app/nostria">Nostria</a> &mdash; Angular client with NIP-98 HTTP interceptor</li>
+      <li><a href="https://github.com/syusui-s/rabbit">Rabbit</a> &mdash; TweetDeck-like client</li>
+      <li><a href="https://github.com/cesardeazevedo/nosotros">Nosotros</a> &mdash; web client</li>
+      <li><a href="https://github.com/block-core/blockcore-notes">Blockcore Notes</a> &mdash; multi-platform client</li>
     </ul>
   </div>
-</section>
 
-<section>
-  <h2>Servers &amp; Services</h2>
   <div class="impl-category">
+    <h3>Media &amp; File Storage</h3>
     <ul>
-      <li><a href="https://nostr.build/">nostr.build</a> &mdash; media uploader using NIP-98 auth</li>
+      <li><a href="https://nostr.build/">nostr.build</a> &mdash; media uploader</li>
       <li><a href="https://void.cat">void.cat</a> &mdash; file hosting by v0l</li>
-      <li><a href="https://cdn.satellite.earth">Satellite CDN</a> &mdash; Blossom-compatible Cloudflare R2 gateway</li>
-      <li><a href="https://github.com/quentintaranpino/nostrcheck-server">nostrcheck-server</a> &mdash; all-in-one Nostr server with NIP-96 and Blossom</li>
-      <li><a href="https://git.v0l.io/Kieran/route96">route96</a> &mdash; Rust server supporting Blossom and NIP-96</li>
+      <li><a href="https://cdn.satellite.earth">Satellite CDN</a> &mdash; Cloudflare R2 gateway</li>
+      <li><a href="https://github.com/quentintaranpino/nostrcheck-server">nostrcheck-server</a> &mdash; all-in-one Nostr server</li>
+      <li><a href="https://git.v0l.io/Kieran/route96">route96</a> <span class="lang">Rust</span> &mdash; Blossom and NIP-96 server</li>
+    </ul>
+  </div>
+
+  <div class="impl-category">
+    <h3>Wallets &amp; Payments</h3>
+    <ul>
+      <li><a href="https://github.com/lnbits/lnbits">LNbits</a> &mdash; Lightning payment platform with NIP-98 login</li>
+      <li><a href="https://github.com/coinos/coinos-server">Coinos</a> &mdash; Bitcoin/Lightning web wallet</li>
+      <li><a href="https://github.com/cashubtc/cashu.me">cashu.me</a> &mdash; Cashu ecash wallet</li>
+      <li><a href="https://github.com/cashubtc/nutshell">Nutshell</a> <span class="lang">Python</span> &mdash; Cashu mint/wallet</li>
+      <li><a href="https://github.com/cashubtc/cdk">CDK</a> <span class="lang">Rust</span> &mdash; Cashu Development Kit</li>
+      <li><a href="https://github.com/cashubtc/npubcash-server">npub.cash</a> &mdash; Cashu server with NIP-98 auth</li>
+      <li><a href="https://github.com/getAlby/lightning-browser-extension">Alby</a> &mdash; browser extension with NIP-98 signing</li>
+      <li><a href="https://github.com/shocknet/wallet2">ShockWallet</a> &mdash; Lightning wallet</li>
+      <li><a href="https://github.com/lawalletio/lawallet-nwc">LaWallet</a> &mdash; Lightning/NWC wallet</li>
+    </ul>
+  </div>
+
+  <div class="impl-category">
+    <h3>Relays</h3>
+    <ul>
+      <li><a href="https://github.com/mikedilger/chorus">Chorus</a> <span class="lang">Rust</span> &mdash; NIP-98 for web management API</li>
+      <li><a href="https://github.com/HORNET-Storage/HORNETS-Nostr-Relay">HORNETS</a> <span class="lang">Go</span> &mdash; relay with NIP-98 middleware</li>
+      <li><a href="https://github.com/relaytools/relaycreator">Relay Creator</a> &mdash; relay management platform</li>
+      <li><a href="https://github.com/fiatjaf/pyramid">Pyramid</a> <span class="lang">Go</span> &mdash; relay with NIP-98 cookie auth</li>
+      <li><a href="https://github.com/dezh-tech/kraken">Kraken</a> <span class="lang">TS</span> &mdash; NestJS relay with NIP-98 auth guard</li>
+      <li><a href="https://github.com/rabble/ombra">Ombra</a> <span class="lang">Rust</span> &mdash; relay with NIP-98 management auth</li>
+      <li><a href="https://github.com/dezh-tech/alienos">Alienos</a> &mdash; self-hosted relay/blossom/nip-05 stack</li>
+    </ul>
+  </div>
+
+  <div class="impl-category">
+    <h3>Streaming &amp; Music</h3>
+    <ul>
+      <li><a href="https://github.com/v0l/zap-stream-core">zap.stream</a> <span class="lang">Rust</span> &mdash; live streaming with NIP-98 API auth</li>
+      <li><a href="https://github.com/wavlake/api">Wavlake</a> &mdash; music streaming platform with NIP-98 middleware</li>
+      <li><a href="https://github.com/divinevideo/divine-web">Divine</a> &mdash; looping video platform</li>
+      <li><a href="https://github.com/zeSchlausKwab/wavefunc">wavfunc</a> &mdash; audio streaming client</li>
+    </ul>
+  </div>
+
+  <div class="impl-category">
+    <h3>AI &amp; Data Vending Machines</h3>
+    <ul>
+      <li><a href="https://github.com/believethehype/nostrdvm">nostrdvm</a> <span class="lang">Python</span> &mdash; NIP-90 DVM framework with NIP-98 uploads</li>
+      <li><a href="https://github.com/Routstr/routstr-core">Routstr</a> &mdash; decentralized AI inference with NIP-98 auth</li>
+      <li><a href="https://github.com/humansinstitute/wingmen">Wingmen</a> &mdash; MCP agent platform with NIP-98 API handler</li>
+    </ul>
+  </div>
+
+  <div class="impl-category">
+    <h3>Git &amp; Linked Data</h3>
+    <ul>
+      <li><a href="https://github.com/JavaScriptSolidServer/git-credential-nostr">git-credential-nostr</a> &mdash; Git credential helper using NIP-98</li>
+      <li><a href="https://github.com/dzdidi/gna">gna</a> &mdash; NIP-98 auth for git HTTP transport</li>
+      <li><a href="https://github.com/JavaScriptSolidServer/JavaScriptSolidServer">Solid Server</a> &mdash; W3C Solid server with Nostr/NIP-98 auth</li>
+      <li><a href="https://github.com/JavaScriptSolidServer/nostr-solid-auth">nostr-solid-auth</a> &mdash; browser extension for Solid + Nostr</li>
+    </ul>
+  </div>
+
+  <div class="impl-category">
+    <h3>Infrastructure &amp; Hosting</h3>
+    <ul>
+      <li><a href="https://github.com/LNVPS/api">LNVPS</a> <span class="lang">Rust</span> &mdash; no-KYC VPS hosting with NIP-98 login</li>
+      <li><a href="https://github.com/damus-io/notepush">Notepush</a> <span class="lang">Rust</span> &mdash; Damus push notification service</li>
+      <li><a href="https://github.com/Grumpified-OGGVCT/NostrGator">NostrGator</a> &mdash; sovereign Nostr infrastructure stack</li>
+    </ul>
+  </div>
+
+  <div class="impl-category">
+    <h3>CLI Tools</h3>
+    <ul>
+      <li><a href="https://github.com/fiatjaf/nak">nak</a> &mdash; Nostr Swiss Army knife; <code>nak curl</code> injects NIP-98 headers</li>
+      <li><a href="https://github.com/mattn/go-nostrbuild">go-nostrbuild</a> <span class="lang">Go</span> &mdash; CLI uploader for nostr.build</li>
+      <li><a href="https://github.com/nosdav/nosdav-cli">nosdav-cli</a> &mdash; NosDAV command-line client</li>
+    </ul>
+  </div>
+
+  <div class="impl-category">
+    <h3>Key Management &amp; Login</h3>
+    <ul>
+      <li><a href="https://github.com/nostrband/noauth">Noauth</a> &mdash; web key manager with NIP-98 signing permissions</li>
+      <li><a href="https://github.com/nostrband/nostr-login">nostr-login</a> &mdash; UI component supporting NIP-98 event signing</li>
+      <li><a href="https://github.com/dolu89/nostr-one">nostr-one</a> &mdash; web component for NIP-98 login</li>
+      <li><a href="https://github.com/divinevideo/keycast">Keycast</a> &mdash; remote signing with NIP-98 admin auth</li>
+    </ul>
+  </div>
+
+  <div class="impl-category">
+    <h3>Other</h3>
+    <ul>
+      <li><a href="https://github.com/fedixyz/fedi">Fedi</a> &mdash; Fedimint mobile app with NIP-98 signer auth</li>
+      <li><a href="https://github.com/tee8z/noaa-oracle">noaa-oracle</a> <span class="lang">Rust</span> &mdash; weather oracle with NIP-98 API auth</li>
+      <li><a href="https://github.com/TrueVote/TrueVote.App">TrueVote</a> &mdash; open-source voting with NIP-98</li>
+      <li><a href="https://github.com/jamesmagoo/nostr-writer">nostr-writer</a> &mdash; Obsidian plugin with NIP-98 image uploads</li>
+      <li><a href="https://github.com/blakejakopovic/nostr_paywall_example">nostr_paywall</a> <span class="lang">Rust</span> &mdash; NIP-98 + Lightning paywall demo</li>
     </ul>
   </div>
 </section>
