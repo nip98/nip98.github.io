@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NIP-98 — HTTP Auth for Nostr</title>
+  <meta name="description" content="NIP-98 defines HTTP authentication using signed Nostr events. The foundational auth layer for file uploads, Blossom, NosDAV, and the Nostr HTTP ecosystem.">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      color: #2c2c2c;
+      background: #fafaf8;
+      line-height: 1.7;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    a { color: #1a5276; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header {
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid #ddd;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: normal;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.25rem;
+    }
+
+    header .subtitle {
+      font-size: 1.1rem;
+      color: #666;
+      font-style: italic;
+    }
+
+    header .authors {
+      margin-top: 0.75rem;
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    header .authors strong { color: #2c2c2c; font-weight: 600; }
+
+    header .links {
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    header .links a {
+      margin-right: 1.2rem;
+      color: #888;
+    }
+
+    header .links a:hover { color: #1a5276; }
+
+    section { margin-bottom: 2rem; }
+
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: #333;
+    }
+
+    p { margin-bottom: 1rem; }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      background: #f0efeb;
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    pre {
+      background: #f0efeb;
+      padding: 1rem;
+      border-radius: 4px;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    pre code { background: none; padding: 0; }
+
+    .impl-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    .impl-category h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #444;
+    }
+
+    .impl-category ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .impl-category li {
+      padding: 0.3rem 0;
+      font-size: 0.9rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    .impl-category li:last-child { border-bottom: none; }
+
+    .impl-category .lang {
+      display: inline-block;
+      font-size: 0.75rem;
+      color: #888;
+      background: #f0efeb;
+      padding: 0.1em 0.5em;
+      border-radius: 3px;
+      margin-left: 0.4rem;
+    }
+
+    .how-it-works {
+      background: #f0efeb;
+      padding: 1.25rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+
+    .how-it-works ol {
+      padding-left: 1.25rem;
+      font-size: 0.95rem;
+    }
+
+    .how-it-works li { margin-bottom: 0.4rem; }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #ddd;
+      font-size: 0.85rem;
+      color: #999;
+    }
+
+    footer a { color: #999; }
+    footer a:hover { color: #1a5276; }
+
+    @media (max-width: 600px) {
+      body { padding: 1.25rem 1rem; }
+      header h1 { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>NIP-98</h1>
+  <div class="subtitle">HTTP Auth for Nostr</div>
+  <div class="authors">
+    By <strong>Kieran</strong> (v0l) and <strong>Melvin Carvalho</strong>
+  </div>
+  <div class="links">
+    <a href="https://github.com/nostr-protocol/nips/blob/master/98.md">Specification</a>
+    <a href="https://github.com/nostr-protocol/nips/pull/469">Original PR</a>
+    <a href="https://github.com/nip98">GitHub</a>
+  </div>
+</header>
+
+<section>
+  <h2>What is NIP-98?</h2>
+  <p>
+    NIP-98 defines a method for authenticating HTTP requests using signed Nostr events.
+    A client creates a <code>kind 27235</code> event containing the target URL and HTTP method,
+    signs it with their Nostr key, base64-encodes it, and sends it in the HTTP
+    <code>Authorization</code> header.
+  </p>
+  <pre><code>Authorization: Nostr &lt;base64-encoded-signed-event&gt;</code></pre>
+  <p>
+    This gives any HTTP server passwordless authentication tied to Nostr identities.
+    No accounts, no sessions, no cookies &mdash; just cryptographic proof of identity.
+  </p>
+</section>
+
+<section>
+  <h2>How It Works</h2>
+  <div class="how-it-works">
+    <ol>
+      <li>Client creates a <code>kind 27235</code> ephemeral event</li>
+      <li>Event includes <code>u</code> tag (URL) and <code>method</code> tag (GET, POST, PUT, etc.)</li>
+      <li>Optionally includes a <code>payload</code> tag (SHA-256 hash of the request body)</li>
+      <li>Client signs the event and base64-encodes it</li>
+      <li>Server validates the signature, URL, method, and timestamp (within a short window)</li>
+    </ol>
+  </div>
+  <p>
+    The timestamp check prevents replay attacks. The URL and method binding prevents
+    token reuse across endpoints. No challenge-response is needed &mdash; the signed
+    event is self-contained proof.
+  </p>
+</section>
+
+<section>
+  <h2>Libraries</h2>
+  <div class="impl-grid">
+    <div class="impl-category">
+      <ul>
+        <li><a href="https://github.com/nbd-wtf/nostr-tools">nostr-tools</a> <span class="lang">JS/TS</span> &mdash; canonical Nostr library, exports <code>nip98.getToken()</code> and <code>nip98.validateToken()</code></li>
+        <li><a href="https://github.com/jiftechnify/hono-nostr-auth">hono-nostr-auth</a> <span class="lang">JS/TS</span> &mdash; NIP-98 middleware for Hono web framework</li>
+        <li><a href="https://github.com/leon-wbr/better-auth-nostr">better-auth-nostr</a> <span class="lang">JS/TS</span> &mdash; NIP-98 plugin for Better Auth</li>
+        <li><a href="https://github.com/dolu89/nostr-one">nostr-one</a> <span class="lang">JS/TS</span> &mdash; reusable web component for NIP-98 login</li>
+        <li><a href="https://github.com/hzrd149/blossom-client-sdk">blossom-client-sdk</a> <span class="lang">JS/TS</span> &mdash; Blossom client with NIP-98 auth signing</li>
+        <li><a href="https://github.com/hzrd149/blossom-server-sdk">blossom-server-sdk</a> <span class="lang">JS/TS</span> &mdash; Blossom server SDK with NIP-98 verification</li>
+        <li><a href="https://nostrify.dev/">Nostrify</a> <span class="lang">Deno</span> &mdash; Nostr framework with NIP-98 and Blossom uploaders</li>
+        <li><a href="https://github.com/rust-nostr/nostr">rust-nostr</a> <span class="lang">Rust</span> &mdash; comprehensive Nostr crate with kind 27235 support + FFI bindings</li>
+        <li><a href="https://github.com/nbd-wtf/go-nostr">go-nostr</a> <span class="lang">Go</span> &mdash; Go Nostr library with event kind support</li>
+        <li><a href="https://github.com/holgern/pynostr">pynostr</a> <span class="lang">Python</span> &mdash; Python Nostr library</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Clients</h2>
+  <div class="impl-category">
+    <ul>
+      <li><a href="https://github.com/v0l/snort">Snort</a> &mdash; web client by v0l</li>
+      <li><a href="https://github.com/damus-io/damus">Damus</a> &mdash; iOS</li>
+      <li><a href="https://github.com/vitorpamplona/amethyst">Amethyst</a> &mdash; Android</li>
+      <li><a href="https://nostrudel.ninja/">noStrudel</a> &mdash; web client with extensive NIP support</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Servers &amp; Services</h2>
+  <div class="impl-category">
+    <ul>
+      <li><a href="https://nostr.build/">nostr.build</a> &mdash; media uploader using NIP-98 auth</li>
+      <li><a href="https://void.cat">void.cat</a> &mdash; file hosting by v0l</li>
+      <li><a href="https://cdn.satellite.earth">Satellite CDN</a> &mdash; Blossom-compatible Cloudflare R2 gateway</li>
+      <li><a href="https://github.com/quentintaranpino/nostrcheck-server">nostrcheck-server</a> &mdash; all-in-one Nostr server with NIP-96 and Blossom</li>
+      <li><a href="https://git.v0l.io/Kieran/route96">route96</a> &mdash; Rust server supporting Blossom and NIP-96</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Blossom Ecosystem</h2>
+  <p>
+    <a href="https://github.com/hzrd149/blossom">Blossom</a> (Blobs Stored Simply on Mediaservers)
+    is a protocol for storing binary blobs addressed by SHA-256 hash. All authenticated
+    operations use NIP-98 authorization events. It has become the standard for
+    decentralized media storage in Nostr.
+  </p>
+  <div class="impl-category">
+    <h3>Blossom Servers</h3>
+    <ul>
+      <li><a href="https://github.com/hzrd149/blossom-server">blossom-server</a> <span class="lang">TS</span> &mdash; reference implementation</li>
+      <li><a href="https://github.com/0xtrr/cherry-server">cherry-server</a> <span class="lang">Rust</span> &mdash; files to disk, SQLite metadata</li>
+      <li><a href="https://github.com/sebdeveloper6952/blossom-server">blossom-server</a> <span class="lang">Go</span> &mdash; Go implementation</li>
+      <li><a href="https://github.com/servuscms/servus">Servus</a> <span class="lang">Rust</span> &mdash; CMS + relay + Blossom in one binary</li>
+    </ul>
+  </div>
+  <div class="impl-category">
+    <h3>Blossom Tools</h3>
+    <ul>
+      <li><a href="https://git.v0l.io/florian/bouquet">Bouquet</a> &mdash; web UI for managing Blossom content</li>
+      <li><a href="https://github.com/Letdown2491/bloom">Bloom</a> &mdash; file manager with NIP-94 metadata and encryption</li>
+      <li><a href="https://github.com/0xtrr/sakura">Sakura</a> &mdash; web app for Blossom media management</li>
+      <li><a href="https://github.com/hzrd149/awesome-blossom">awesome-blossom</a> &mdash; curated list of Blossom resources</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>NosDAV</h2>
+  <p>
+    <a href="https://nosdav.com">NosDAV</a> is a distributed authoring and versioning protocol
+    built on Nostr. It uses NIP-98 as its authentication layer for write operations,
+    enabling WebDAV-like file storage with Nostr identities.
+  </p>
+  <div class="impl-category">
+    <ul>
+      <li><a href="https://github.com/nosdav/spec">nosdav/spec</a> &mdash; protocol specification</li>
+      <li><a href="https://github.com/nosdav/server">nosdav/server</a> &mdash; Node.js server with NIP-98 validation</li>
+      <li><a href="https://github.com/nosdav/nosdav-cli">nosdav-cli</a> &mdash; command-line client</li>
+      <li><a href="https://github.com/nosdav/passport-nostr">passport-nostr</a> &mdash; Passport.js strategy for Nostr auth</li>
+    </ul>
+  </div>
+  <p>
+    NosDAV apps include <a href="https://github.com/nosdav/bookmarks">bookmarks</a>,
+    <a href="https://github.com/nosdav/pastebin">pastebin</a>,
+    <a href="https://github.com/nosdav/todo">todo</a>,
+    <a href="https://github.com/nosdav/calendar">calendar</a>,
+    <a href="https://github.com/nosdav/kanban">kanban</a>, and
+    <a href="https://github.com/nosdav/my-mind">mind maps</a>.
+  </p>
+</section>
+
+<section>
+  <h2>Provenance</h2>
+  <p>
+    NIP-98 was proposed on April 24, 2023 in
+    <a href="https://github.com/nostr-protocol/nips/pull/469">PR #469</a>
+    by Kieran (v0l), with Melvin Carvalho as co-author. The specification was
+    co-designed through the PR discussion, where the <code>u</code> tag convention,
+    security model (no challenge needed), and scope boundaries were established.
+    It was merged on June 17, 2023.
+  </p>
+  <p>
+    Author attributions were removed from all NIPs in November 2023
+    (<a href="https://github.com/nostr-protocol/nips/pull/883">PR #883</a>).
+    The original authorship is preserved in git history.
+  </p>
+</section>
+
+<footer>
+  <p>
+    Website &copy; 2025 &mdash; <a href="https://github.com/nip98/nip98.github.io/blob/main/LICENSE">AGPL-3.0</a>
+    &nbsp;|&nbsp;
+    NIP-98 specification: <a href="https://github.com/nostr-protocol/nips/blob/master/98.md">nostr-protocol/nips</a>
+  </p>
+</footer>
+
+</body>
+</html>
