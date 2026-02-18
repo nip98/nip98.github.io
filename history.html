@@ -136,6 +136,36 @@
           (<a href="https://github.com/nostr-protocol/nips/pull/883">PR #883</a>)
         </td>
       </tr>
+      <tr>
+        <td>2024-02-20</td>
+        <td>
+          hzrd149 creates the <a href="https://github.com/hzrd149/blossom">Blossom</a> spec,
+          adopting the <code>Authorization: Nostr</code> header scheme from NIP-98
+          but using a new event kind (<code>24242</code>) with server-agnostic scoping
+        </td>
+      </tr>
+      <tr>
+        <td>2024-04-29</td>
+        <td>
+          alexgleason opens <a href="https://github.com/hzrd149/blossom/issues/8">blossom#8</a>:
+          &ldquo;Why a custom event kind of authorization rather than NIP-98?&rdquo;
+        </td>
+      </tr>
+      <tr>
+        <td>2024-05-14</td>
+        <td>
+          hzrd149 explains: NIP-98 events are URL-scoped via the <code>u</code> tag,
+          preventing the same auth event from uploading a blob to multiple servers
+        </td>
+      </tr>
+      <tr>
+        <td>2024-07-23</td>
+        <td>
+          Melvin Carvalho comments on blossom#8: &ldquo;I actually wanted URL to be a
+          SHOULD instead of a MUST, for the reasons you outlined. It was quite hard to
+          get NIP-98 approved&hellip; so it was a case of having to compromise.&rdquo;
+        </td>
+      </tr>
     </tbody>
   </table>
 </section>
@@ -159,6 +189,7 @@
     <li><a href="https://github.com/nosdav/navs">NAV-03</a> &mdash; NosDAV specification anchored to NIP-98</li>
     <li><a href="https://github.com/nostr-protocol/nips/blob/master/96.md">NIP-96</a> &mdash; HTTP File Storage Integration (uses NIP-98 for auth)</li>
     <li><a href="https://github.com/nostr-protocol/nips/blob/master/42.md">NIP-42</a> &mdash; Authentication of clients to relays (challenge-based, distinct from NIP-98)</li>
+    <li><a href="https://github.com/hzrd149/blossom">Blossom</a> &mdash; blob storage protocol; auth (<code>kind 24242</code>) derived from NIP-98 pattern but server-agnostic (<a href="https://github.com/hzrd149/blossom/issues/8">#8</a>)</li>
   </ul>
 </section>
 

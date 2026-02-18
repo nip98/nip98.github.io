@@ -253,9 +253,12 @@
   <h2>Related: Blossom</h2>
   <p>
     <a href="https://github.com/hzrd149/blossom">Blossom</a> (Blobs Stored Simply on Mediaservers)
-    uses a similar but distinct auth mechanism: <code>kind 24242</code> events with the same
-    <code>Authorization: Nostr</code> header format. Unlike NIP-98 which is URL-bound,
-    Blossom auth is operation-scoped and server-agnostic.
+    derives its auth from the NIP-98 pattern, adopting the
+    <code>Authorization: Nostr &lt;base64&gt;</code> header scheme but using a distinct
+    event kind (<code>kind 24242</code>) with server-agnostic scoping. Where NIP-98 binds
+    auth to a specific URL, Blossom binds to an operation type, enabling the same
+    auth event to work across multiple servers. See
+    <a href="https://github.com/hzrd149/blossom/issues/8">blossom#8</a> for the design rationale.
   </p>
 </section>
 
