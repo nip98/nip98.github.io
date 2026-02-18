@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NIP-98 — History &amp; Provenance</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      color: #2c2c2c;
+      background: #fafaf8;
+      line-height: 1.7;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    a { color: #1a5276; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    h1 {
+      font-size: 1.6rem;
+      font-weight: normal;
+      margin-bottom: 0.25rem;
+    }
+
+    .back {
+      font-size: 0.9rem;
+      color: #888;
+      margin-bottom: 2rem;
+      display: block;
+    }
+
+    section { margin-bottom: 2rem; }
+
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: #333;
+    }
+
+    p { margin-bottom: 1rem; }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      background: #f0efeb;
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      font-weight: 600;
+      color: #444;
+      border-bottom: 2px solid #ddd;
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #ddd;
+      font-size: 0.85rem;
+      color: #999;
+    }
+
+    footer a { color: #999; }
+
+    @media (max-width: 600px) {
+      body { padding: 1.25rem 1rem; }
+      h1 { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<a class="back" href="index.html">&larr; NIP-98</a>
+<h1>History &amp; Provenance</h1>
+
+<section>
+  <h2>Authors</h2>
+  <p>
+    NIP-98 was co-authored by <strong>Kieran</strong> (v0l) and <strong>Melvin Carvalho</strong>.
+    Both were listed as authors in the original document header from the very first commit.
+  </p>
+</section>
+
+<section>
+  <h2>Timeline</h2>
+  <table>
+    <thead>
+      <tr><th>Date</th><th>Event</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>2023-04-24</td>
+        <td>
+          <a href="https://github.com/nostr-protocol/nips/pull/469">PR #469</a> opened by Kieran (v0l).
+          Document header: <code>author:kieran</code> <code>author:melvincarvalho</code>
+        </td>
+      </tr>
+      <tr>
+        <td>2023-04-24</td>
+        <td>
+          Melvin Carvalho comments within minutes, commits to implementing in
+          <a href="https://nosdav.com">NosDAV</a> clients and servers
+        </td>
+      </tr>
+      <tr>
+        <td>2023-05-22</td>
+        <td>Melvin Carvalho submits formal APPROVED review</td>
+      </tr>
+      <tr>
+        <td>2023-06-17</td>
+        <td>PR merged into nostr-protocol/nips</td>
+      </tr>
+      <tr>
+        <td>2023-11-16</td>
+        <td>
+          All NIP author attributions removed across the repository
+          (<a href="https://github.com/nostr-protocol/nips/pull/883">PR #883</a>)
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>Design Contributions</h2>
+  <p>
+    The PR #469 discussion records the collaborative design process:
+  </p>
+  <ul style="padding-left: 1.25rem; margin-bottom: 1rem;">
+    <li>The <code>u</code> tag convention (vs <code>url</code>) &mdash; advocated by Melvin Carvalho based on existing NosDAV implementations</li>
+    <li>Security model &mdash; analysis of why NIP-98 does not need a challenge-response (unlike NIP-42), with replay attack mitigation via timestamps</li>
+    <li>Scope boundaries &mdash; keeping NIP-98 focused on authentication (401), with payment flows (402) deferred to a separate NIP</li>
+    <li>HTTP status code semantics &mdash; distinction between 401 and 403 responses</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Related Specifications</h2>
+  <ul style="padding-left: 1.25rem; margin-bottom: 1rem;">
+    <li><a href="https://github.com/nosdav/navs">NAV-03</a> &mdash; NosDAV specification anchored to NIP-98</li>
+    <li><a href="https://github.com/nostr-protocol/nips/blob/master/96.md">NIP-96</a> &mdash; HTTP File Storage Integration (uses NIP-98 for auth)</li>
+    <li><a href="https://github.com/nostr-protocol/nips/blob/master/42.md">NIP-42</a> &mdash; Authentication of clients to relays (challenge-based, distinct from NIP-98)</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Primary Sources</h2>
+  <ul style="padding-left: 1.25rem;">
+    <li><a href="https://github.com/nostr-protocol/nips/blob/master/98.md">Current specification</a> (nostr-protocol/nips)</li>
+    <li><a href="https://github.com/nostr-protocol/nips/pull/469">PR #469</a> &mdash; original proposal and discussion</li>
+    <li><a href="https://github.com/nostr-protocol/nips/commit/29f26e72">Commit 29f26e72</a> &mdash; first commit with author credits</li>
+    <li><a href="https://github.com/nostr-protocol/nips/pull/883">PR #883</a> &mdash; removal of all NIP author attributions</li>
+  </ul>
+</section>
+
+<footer>
+  <p>
+    <a href="index.html">nip98.com</a> &nbsp;|&nbsp;
+    <a href="https://github.com/nip98/nip98.github.io/blob/gh-pages/LICENSE">AGPL-3.0</a>
+  </p>
+</footer>
+
+</body>
+</html>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NIP-98 — HTTP Auth for Nostr</title>
-  <meta name="description" content="NIP-98 defines HTTP authentication using signed Nostr events. The foundational auth layer for file uploads, Blossom, NosDAV, and the Nostr HTTP ecosystem.">
+  <meta name="description" content="NIP-98 defines HTTP authentication using signed Nostr events. The foundational auth layer for file uploads, NosDAV, and the Nostr HTTP ecosystem.">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -215,9 +215,7 @@
         <li><a href="https://github.com/jiftechnify/hono-nostr-auth">hono-nostr-auth</a> <span class="lang">JS/TS</span> &mdash; NIP-98 middleware for Hono web framework</li>
         <li><a href="https://github.com/leon-wbr/better-auth-nostr">better-auth-nostr</a> <span class="lang">JS/TS</span> &mdash; NIP-98 plugin for Better Auth</li>
         <li><a href="https://github.com/dolu89/nostr-one">nostr-one</a> <span class="lang">JS/TS</span> &mdash; reusable web component for NIP-98 login</li>
-        <li><a href="https://github.com/hzrd149/blossom-client-sdk">blossom-client-sdk</a> <span class="lang">JS/TS</span> &mdash; Blossom client with NIP-98 auth signing</li>
-        <li><a href="https://github.com/hzrd149/blossom-server-sdk">blossom-server-sdk</a> <span class="lang">JS/TS</span> &mdash; Blossom server SDK with NIP-98 verification</li>
-        <li><a href="https://nostrify.dev/">Nostrify</a> <span class="lang">Deno</span> &mdash; Nostr framework with NIP-98 and Blossom uploaders</li>
+        <li><a href="https://nostrify.dev/">Nostrify</a> <span class="lang">Deno</span> &mdash; Nostr framework with NIP-98 support</li>
         <li><a href="https://github.com/rust-nostr/nostr">rust-nostr</a> <span class="lang">Rust</span> &mdash; comprehensive Nostr crate with kind 27235 support + FFI bindings</li>
         <li><a href="https://github.com/nbd-wtf/go-nostr">go-nostr</a> <span class="lang">Go</span> &mdash; Go Nostr library with event kind support</li>
         <li><a href="https://github.com/holgern/pynostr">pynostr</a> <span class="lang">Python</span> &mdash; Python Nostr library</li>
@@ -252,31 +250,13 @@
 </section>
 
 <section>
-  <h2>Blossom Ecosystem</h2>
+  <h2>Related: Blossom</h2>
   <p>
     <a href="https://github.com/hzrd149/blossom">Blossom</a> (Blobs Stored Simply on Mediaservers)
-    is a protocol for storing binary blobs addressed by SHA-256 hash. All authenticated
-    operations use NIP-98 authorization events. It has become the standard for
-    decentralized media storage in Nostr.
+    uses a similar but distinct auth mechanism: <code>kind 24242</code> events with the same
+    <code>Authorization: Nostr</code> header format. Unlike NIP-98 which is URL-bound,
+    Blossom auth is operation-scoped and server-agnostic.
   </p>
-  <div class="impl-category">
-    <h3>Blossom Servers</h3>
-    <ul>
-      <li><a href="https://github.com/hzrd149/blossom-server">blossom-server</a> <span class="lang">TS</span> &mdash; reference implementation</li>
-      <li><a href="https://github.com/0xtrr/cherry-server">cherry-server</a> <span class="lang">Rust</span> &mdash; files to disk, SQLite metadata</li>
-      <li><a href="https://github.com/sebdeveloper6952/blossom-server">blossom-server</a> <span class="lang">Go</span> &mdash; Go implementation</li>
-      <li><a href="https://github.com/servuscms/servus">Servus</a> <span class="lang">Rust</span> &mdash; CMS + relay + Blossom in one binary</li>
-    </ul>
-  </div>
-  <div class="impl-category">
-    <h3>Blossom Tools</h3>
-    <ul>
-      <li><a href="https://git.v0l.io/florian/bouquet">Bouquet</a> &mdash; web UI for managing Blossom content</li>
-      <li><a href="https://github.com/Letdown2491/bloom">Bloom</a> &mdash; file manager with NIP-94 metadata and encryption</li>
-      <li><a href="https://github.com/0xtrr/sakura">Sakura</a> &mdash; web app for Blossom media management</li>
-      <li><a href="https://github.com/hzrd149/awesome-blossom">awesome-blossom</a> &mdash; curated list of Blossom resources</li>
-    </ul>
-  </div>
 </section>
 
 <section>
@@ -305,19 +285,8 @@
 </section>
 
 <section>
-  <h2>Provenance</h2>
   <p>
-    NIP-98 was proposed on April 24, 2023 in
-    <a href="https://github.com/nostr-protocol/nips/pull/469">PR #469</a>
-    by Kieran (v0l), with Melvin Carvalho as co-author. The specification was
-    co-designed through the PR discussion, where the <code>u</code> tag convention,
-    security model (no challenge needed), and scope boundaries were established.
-    It was merged on June 17, 2023.
-  </p>
-  <p>
-    Author attributions were removed from all NIPs in November 2023
-    (<a href="https://github.com/nostr-protocol/nips/pull/883">PR #883</a>).
-    The original authorship is preserved in git history.
+    <a href="history.html">History &amp; Provenance</a>
   </p>
 </section>
 
