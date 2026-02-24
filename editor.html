@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NIP-98 Editor</title>
+  <style>
+    body { margin: 0; font-family: system-ui, sans-serif; background: #f8fafc; }
+  </style>
+</head>
+<body>
+
+<script type="application/ld+json">
+{
+  "@context": {
+    "schema": "http://schema.org/"
+  },
+  "@id": "#note",
+  "@type": "schema:TextDigitalDocument",
+  "@view": "https://nip98.com/editor.js",
+  "schema:name": "My Note",
+  "schema:text": ""
+}
+</script>
+
+<!-- NIP-07 key provider -->
+<script src="https://nip-07.github.io/nip7/login.js"></script>
+
+<!-- Renders the @view pane -->
+<script src="https://unpkg.com/solid-shim/dist/mashlib.min.js"></script>
+
+</body>
+</html>
